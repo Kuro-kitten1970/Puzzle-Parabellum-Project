@@ -2,9 +2,16 @@ using UnityEngine;
 
 public class NormalGem : MonoBehaviour, IGemBehavior
 {
-    public void GemBehavior(Gem gem, GemColorType colorType)
+    RayDetection rayDetection;
+
+    private void Awake()
     {
-        gem.gemColor = colorType;
+        rayDetection = GetComponent<RayDetection>();
+    }
+
+    public void GemBehavior(Gem gem)
+    {
+        
     }
 
     public void GemVisitor()

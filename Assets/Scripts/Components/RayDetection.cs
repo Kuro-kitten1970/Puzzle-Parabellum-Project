@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RayDetection : MonoBehaviour
@@ -27,13 +25,8 @@ public class RayDetection : MonoBehaviour
         _isGrounded = _boxCollider.Cast(Vector2.down, _castFilter, _objHits, _rayDistance) > 0;
     }
 
-    public GameObject GemChecker(Vector2 direction)
+    public void GemChecker(Vector2 direction)
     {
-        RaycastHit2D gemChecker = Physics2D.Raycast(transform.position, direction, _rayDistance, _gemLayer);
-
-        if (!gemChecker.IsUnityNull())
-            return gemChecker.collider.gameObject;
-        else
-            return null;
+        
     }
 }
