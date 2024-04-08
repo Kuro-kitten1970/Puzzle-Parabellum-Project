@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Gem
+  - Wall
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3798236271
+    locked: 0
+  - name: Ground
+    uniqueID: 3198938355
     locked: 0
