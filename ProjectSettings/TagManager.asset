@@ -7,6 +7,8 @@ TagManager:
   - Red
   - Blue
   - Yellow
+  - Green
+  - Diamond
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Gem
   - Wall
-  - 
+  - Board
   - 
   - 
   - 
