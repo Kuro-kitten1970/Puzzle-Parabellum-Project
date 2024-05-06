@@ -5,6 +5,8 @@ public class BoardManager : Singleton<BoardManager>
     public static GameBoard gameBoard_1;
     public static GameBoard gameBoard_2;
 
+    public GameObject obj;
+
     public AnimationClip[] animationClips;
 
     private void Start()
@@ -30,8 +32,11 @@ public class BoardManager : Singleton<BoardManager>
     {
         if (id == gameBoard_1.BoardID)
             return gameBoard_1;
-        else
+
+        if (id == gameBoard_2.BoardID)
             return gameBoard_2;
+
+        return null;
     }
 
     private void AnimationController()
@@ -39,7 +44,7 @@ public class BoardManager : Singleton<BoardManager>
         foreach (AnimationClip clip in animationClips)
         {
             if (clip != null)
-                GetComponent<Animator>().Play(clip.name);            
+                GetComponent<Animator>().Play(clip.name);
         }
     }
 }

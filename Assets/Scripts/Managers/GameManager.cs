@@ -2,13 +2,5 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private void Start()
-    {
-        
-    }
-
-    private void OnGUI()
-    {
-        
-    }
+    public static GameStates CurrentGameState;
 }

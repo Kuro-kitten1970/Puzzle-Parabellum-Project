@@ -12,7 +12,7 @@ public class GameBoard : MonoBehaviour
     public readonly int Width = 6;
     public readonly int Height = 15;
     public readonly float CellSize = 0.5f;
-    public Vector2 GridOrigin = new Vector2(-5.75f, 0.25f);
+    public Vector2 GridOrigin;
 
     public GameObject[,] _grid;
 
@@ -47,6 +47,8 @@ public class GameBoard : MonoBehaviour
         {
             int x = Mathf.FloorToInt((position.x - GridOrigin.x) / CellSize);
             int y = Mathf.FloorToInt((position.y - GridOrigin.y) / CellSize);
+
+            Debug.Log(x + " : " + y);
 
             _grid[x, y] = gem;
             gem.transform.position = new Vector3(position.x, position.y, 0f);

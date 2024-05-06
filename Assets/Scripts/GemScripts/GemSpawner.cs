@@ -18,6 +18,7 @@ public class GemSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
             SpawnGem(BoardID.BoardPlayer1);
+
         if (Input.GetKeyDown(KeyCode.X))
             SpawnGem(BoardID.BoardPlayer2);
     }
@@ -34,6 +35,7 @@ public class GemSpawner : MonoBehaviour
                 GemPreview_P1_Down.sprite = obj_1.GetComponent<SpriteRenderer>().sprite;
                 GemPreview_P1_Top.sprite = obj_2.GetComponent<SpriteRenderer>().sprite;
                 break;
+
             case BoardID.BoardPlayer2:
                 RandomGem(SpawnPoint_2.transform.position, boardID, out obj_1, out obj_2);
                 GemPreview_P2_Down.sprite = obj_1.GetComponent<SpriteRenderer>().sprite;

@@ -21,6 +21,9 @@ public class GemFallingHandler : MonoBehaviour
     {
         _gem = GetComponent<Gem>();
         _board = BoardManager.GetBoard(_gem.boardID);
+
+        Debug.Log(_board.BoardID == _gem.boardID);
+        
         _gemController = _board.CurrentGem_1.GetComponent<GemController>();
     }
 

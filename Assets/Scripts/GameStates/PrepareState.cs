@@ -1,29 +1,46 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class PrepareState : MonoBehaviour, IGameState
 {
-    private byte _currentTime = 0;
-    private byte _timeCount = 3;
+    private int _timeCount = 3;
+
+    private TMP_Text _text;
+    private GameObject obj;
 
     public void HandleState(GameStateHandler stateHandler)
     {
         Debug.Log("Current state is: " + this);
-        
+
+        GameManager.CurrentGameState = GameStates.PrepareState;
+
+        obj = UIManager.CreateCountDownUI();
+
+        _text = obj.GetComponentInChildren<TMP_Text>();
+
         StartCoroutine(TimeCount());
     }
 
     IEnumerator TimeCount()
     {
-        while (_currentTime < _timeCount)
+        while (0 <= _timeCount)
         {
             yield return new WaitForSeconds(1f);
-            _currentTime++;
+            Debug.Log(_timeCount);
+            _timeCount--;
+            _text.text = _timeCount == 0 ? "FIGHT!" : _timeCount.ToString();
         }
 
-        if (_currentTime >= _timeCount)
+        if (_timeCount < 0)
         {
-            //GameStateHandler.EnterControllableState();
+            GameStateHandler._playState = gameObject.AddComponent<PlayState>();
+            GameStateHandler._stopState = gameObject.AddComponent<StopState>();
+            GameStateHandler._gameEndState = gameObject.AddComponent<GameEndState>();
+
+            GameStateHandler.EnterState(GameStates.PlayState);
+            
+            Destroy(obj);
             StopCoroutine(TimeCount());
         }
     }
