@@ -122,6 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardID: 0
   isCrashGem: 0
+  isAlreadyPlaced: 0
+  isDiamondGem: 1
 --- !u!114 &-5539690528241065272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,5 +138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fallingSpeed: 0.5
   _fallTime: 1
-  _moveDown: 115
+  p1_moveDown: 115
+  p2_moveDown: 107
   _isControllable: 1
+  _isChildren: 0
+  Spawner: {fileID: 0}

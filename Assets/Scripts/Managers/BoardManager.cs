@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class BoardManager : Singleton<BoardManager>
@@ -5,9 +6,13 @@ public class BoardManager : Singleton<BoardManager>
     public static GameBoard gameBoard_1;
     public static GameBoard gameBoard_2;
 
-    public GameObject obj;
+    public TMP_Text ScoreRedTXT;
+    public TMP_Text ScoreBlueTXT;
 
     public AnimationClip[] animationClips;
+
+    private int _scoreRed = 0;
+    private int _scoreBlue = 0;
 
     private void Start()
     {

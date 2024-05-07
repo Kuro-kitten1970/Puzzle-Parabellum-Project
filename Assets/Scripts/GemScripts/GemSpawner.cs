@@ -2,78 +2,68 @@ using UnityEngine;
 
 public class GemSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _gemLists;
+    [SerializeField] private GameObject[] _normalGemLists;
+    [SerializeField] private GameObject[] _crashGemLists;
     [SerializeField] private GameObject _diamond;
-    [SerializeField] private float _crashGemPercentage = 70;
 
-    public GameObject SpawnPoint_1;
-    public GameObject SpawnPoint_2;
+    public GameObject SpawnPoint;
 
-    public SpriteRenderer GemPreview_P1_Top;
-    public SpriteRenderer GemPreview_P1_Down;
-    public SpriteRenderer GemPreview_P2_Top;
-    public SpriteRenderer GemPreview_P2_Down;
+    public GameBoard Board;
+
+    public SpriteRenderer GemPreview_Top;
+    public SpriteRenderer GemPreview_Down;
+
+    private byte _diamondGemCount = 0;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z))
-            SpawnGem(BoardID.BoardPlayer1);
-
-        if (Input.GetKeyDown(KeyCode.X))
-            SpawnGem(BoardID.BoardPlayer2);
+            SpawnGem(Board);
     }
 
-    public void SpawnGem(BoardID boardID)
+    public void SpawnGem(GameBoard board)
     {
-        GameObject obj_1 = null;
-        GameObject obj_2 = null;
-
-        switch (boardID)
-        {
-            case BoardID.BoardPlayer1:
-                RandomGem(SpawnPoint_1.transform.position, boardID, out obj_1, out obj_2);
-                GemPreview_P1_Down.sprite = obj_1.GetComponent<SpriteRenderer>().sprite;
-                GemPreview_P1_Top.sprite = obj_2.GetComponent<SpriteRenderer>().sprite;
-                break;
-
-            case BoardID.BoardPlayer2:
-                RandomGem(SpawnPoint_2.transform.position, boardID, out obj_1, out obj_2);
-                GemPreview_P2_Down.sprite = obj_1.GetComponent<SpriteRenderer>().sprite;
-                GemPreview_P2_Top.sprite = obj_2.GetComponent<SpriteRenderer>().sprite;
-                break;
-        }
-
-        BoardManager.GetBoard(boardID).CurrentGem_1 = obj_1;
-        BoardManager.GetBoard(boardID).CurrentGem_2 = obj_2;
-
-        BoardManager.GetBoard(boardID).DiamondGemCount++;
-        if (BoardManager.GetBoard(boardID).DiamondGemCount >= 25) BoardManager.GetBoard(boardID).DiamondGemCount = 0;
-    }
-
-    private void RandomGem(Vector2 position, BoardID boardID, out GameObject obj_1, out GameObject obj_2)
-    {
-        GameObject gem_1 = (BoardManager.GetBoard(boardID).DiamondGemCount < 25) ?
-            Instantiate(_gemLists[Random.Range(0, _gemLists.Length)], position, Quaternion.identity) :
-            Instantiate(_diamond, position, Quaternion.identity);
-
-        int rnd = Random.Range(0, 100);
-
-        GameObject gem_2 = (rnd > _crashGemPercentage) ?
-            Instantiate(_gemLists[Random.Range(0, 4)], new Vector2(position.x, position.y + 0.5f), Quaternion.identity) :
-            Instantiate(_gemLists[Random.Range(4, _gemLists.Length)], new Vector2(position.x, position.y + 0.5f), Quaternion.identity);
+        GameObject gem_1 = RandomGem(SpawnPoint.transform.position, true);
+        GameObject gem_2 = RandomGem(new Vector2(SpawnPoint.transform.position.x, SpawnPoint.transform.position.y + 0.5f), false);
 
         gem_2.transform.SetParent(gem_1.transform, true);
 
         gem_1.AddComponent<GemController>();
 
-        GemFallingHandler gemFallingHandler = gem_2.GetComponent<GemFallingHandler>();
-        gemFallingHandler._isChildren = true;
-        gemFallingHandler.enabled = false;
+        GemFallingHandler gem_1Falling = gem_1.GetComponent<GemFallingHandler>();
+        gem_1Falling.Spawner = this;
 
-        gem_1.GetComponent<Gem>().boardID = boardID;
-        gem_2.GetComponent<Gem>().boardID = boardID;
+        GemFallingHandler gem_2Falling = gem_2.GetComponent<GemFallingHandler>();
+        gem_2Falling._isChildren = true;
+        gem_2Falling.enabled = false;
+        gem_2Falling.Spawner = this;
 
-        obj_1 = gem_1;
-        obj_2 = gem_2;
+        gem_1.GetComponent<Gem>().boardID = board.BoardID;
+        gem_2.GetComponent<Gem>().boardID = board.BoardID;
+
+        board.CurrentGem_1 = gem_1;
+        board.CurrentGem_2 = gem_2;
+
+        gem_1.GetComponent<GemController>().Board = board;
+
+        GemPreview_Down.sprite = gem_1.GetComponent<SpriteRenderer>().sprite;
+        GemPreview_Top.sprite = gem_2.GetComponent<SpriteRenderer>().sprite;
+    }
+
+    private GameObject RandomGem(Vector2 position, bool isFirstGem)
+    {
+        if (_diamondGemCount >= 25 && isFirstGem)
+        {
+            _diamondGemCount = 0;
+            return Instantiate(_diamond, position, Quaternion.identity);
+        }
+
+        _diamondGemCount++;
+
+        int rnd = Random.Range(0, 100);
+
+        return rnd < 80 ?
+            Instantiate(_normalGemLists[Random.Range(0, _normalGemLists.Length)], position, Quaternion.identity) :
+            Instantiate(_crashGemLists[Random.Range(0, _crashGemLists.Length)], position, Quaternion.identity);
     }
 }
