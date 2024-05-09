@@ -32,6 +32,8 @@ public class GemController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.IsGameEnd) return;
+        
         if (Input.GetKeyDown(GetPlayerInput(PlayerInput.MoveRight)))
             MoveRightLeftHandle(_moveRightPos);
 

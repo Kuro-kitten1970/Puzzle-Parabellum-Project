@@ -2,12 +2,12 @@ using UnityEngine;
 
 public enum GameStates
 {
-    StartState, PrepareState, PlayState, StopState, GameEndState
+    StartState, PlayState, GameEndState
 }
 
 public class GameStateHandler : Singleton<GameStateHandler>
 {
-    public static IGameState _startState, _prepareState, _playState, _stopState, _gameEndState;
+    public static IGameState _startState, _playState, _gameEndState;
     private static GameStateContext _stateContext;
 
     private void Start()
@@ -15,7 +15,8 @@ public class GameStateHandler : Singleton<GameStateHandler>
         _stateContext = gameObject.AddComponent<GameStateContext>();
 
         _startState = gameObject.AddComponent<StartState>();
-        _prepareState = gameObject.AddComponent<PrepareState>();
+        _playState = gameObject.AddComponent<PlayState>();
+        _gameEndState = gameObject.AddComponent<GameEndState>();
 
         _stateContext.Transition(_startState);
     }
@@ -27,14 +28,8 @@ public class GameStateHandler : Singleton<GameStateHandler>
             case GameStates.StartState:
                 _stateContext.Transition(_startState);
                 break;
-            case GameStates.PrepareState:
-                _stateContext.Transition(_prepareState);
-                break;
             case GameStates.PlayState:
                 _stateContext.Transition(_playState);
-                break;
-            case GameStates.StopState:
-                _stateContext.Transition(_stopState);
                 break;
             case GameStates.GameEndState:
                 _stateContext.Transition(_gameEndState);

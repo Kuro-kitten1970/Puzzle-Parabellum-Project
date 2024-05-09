@@ -13,12 +13,18 @@ public class GemSpawner : MonoBehaviour
     public SpriteRenderer GemPreview_Top;
     public SpriteRenderer GemPreview_Down;
 
-    private byte _diamondGemCount = 0;
+    //private byte _diamondGemCount = 0;
 
     private void Update()
     {
+        //Debug
         if (Input.GetKeyDown(KeyCode.Z))
             SpawnGem(Board);
+    }
+
+    private void Start()
+    {
+        SpawnGem(Board);
     }
 
     public void SpawnGem(GameBoard board)
@@ -52,13 +58,13 @@ public class GemSpawner : MonoBehaviour
 
     private GameObject RandomGem(Vector2 position, bool isFirstGem)
     {
-        if (_diamondGemCount >= 25 && isFirstGem)
+        /*if (_diamondGemCount >= 25 && isFirstGem)
         {
             _diamondGemCount = 0;
             return Instantiate(_diamond, position, Quaternion.identity);
         }
 
-        _diamondGemCount++;
+        _diamondGemCount++;*/
 
         int rnd = Random.Range(0, 100);
 

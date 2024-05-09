@@ -50,8 +50,6 @@ public class GameBoard : MonoBehaviour
             int x = Mathf.FloorToInt((position.x - GridOrigin.x) / CellSize);
             int y = Mathf.FloorToInt((position.y - GridOrigin.y) / CellSize);
 
-            Debug.Log(x + " : " + y);
-
             _grid[x, y] = gem;
             gem.transform.position = new Vector3(position.x, position.y, 0f);
         }
@@ -68,12 +66,14 @@ public class GameBoard : MonoBehaviour
     private void UpdateScore()
     {
         _score += 500;
-        ScoreText.text = _score.ToString();
+        GameManager.UpdateScore(ID, _score);
+        
+        ScoreText.text = GameManager.GetScore(ID).ToString();
     }
 
     public int GetWidthOfGrid(Vector2 position) => Mathf.FloorToInt((position.x - GridOrigin.x) / CellSize);
 
-    #region  DFS Algorithm
+    #region  Flood Fill Algorithm
 
     private void FindAndDestroy(int x, int y, bool[,] visited, string tag)
     {
@@ -104,7 +104,7 @@ public class GameBoard : MonoBehaviour
         FindAndDestroy(x, y, visited, startPoint.tag);
     }
 
-    public void DestroyAllGem(GameObject startPoint)
+    /*public void DestroyAllGem(GameObject startPoint)
     {
         int x = Mathf.FloorToInt((startPoint.transform.position.x - GridOrigin.x) / CellSize);
         int y = Mathf.FloorToInt((startPoint.transform.position.y - GridOrigin.y) / CellSize);
@@ -154,7 +154,7 @@ public class GameBoard : MonoBehaviour
         }
 
         return null;
-    }
+    }*/
 
     #endregion
 }

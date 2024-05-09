@@ -46,12 +46,15 @@ public class GemFallingHandler : MonoBehaviour
                 gameObject.transform.DetachChildren();
 
                 _gemController.enabled = false;
+
+                Destroy(_gemController);
+
                 _gemFalling = _board.CurrentGem_2.GetComponent<GemFallingHandler>();
                 _gemFalling._isControllable = false;
                 _gemFalling.enabled = true;
 
-                if (_gem.isDiamondGem)
-                    _board.DestroyAllGem(gameObject);
+                /*if (_gem.isDiamondGem)
+                    _board.DestroyAllGem(gameObject);*/
 
                 if (_gem.isCrashGem)
                     _board.DestroyConnectedGem(gameObject);
